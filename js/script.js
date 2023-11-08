@@ -1,10 +1,11 @@
 import ehUmCPF from "./valida-cpf.js";
 import ehMaiorDeIdade from "./valida-idade.js";
-const camposDoFormulario = document.querySelectorAll('[required]')
+const camposDoFormulario = document.querySelectorAll('[required]');
 
 camposDoFormulario.forEach((campo) => {
   campo.addEventListener("blur", () => verificaCampo(campo));
-})
+  campo.addEventListener("invalid", (evento) => evento.preventDefault()); // remove o pop-up de erro
+});
 
 function verificaCampo(campo) {
   if (campo.name == "cpf" && campo.value.length >= 11) {
@@ -13,6 +14,7 @@ function verificaCampo(campo) {
   if (campo.name == "aniversario" && campo.value != "") {
     ehMaiorDeIdade(campo);
   }
+  console.log(campo.validity);
 }
 
 const tiposDeErro = [
@@ -21,8 +23,7 @@ const tiposDeErro = [
   'patternMismatch',
   'tooShort',
   'customError'
-]
-
+];
 
 const mensagens = {
   nome: {
@@ -53,4 +54,4 @@ const mensagens = {
   termos: {
     valueMissing: 'Você deve aceitar nossos termos antes de continuar.',
   }
-}
+};
